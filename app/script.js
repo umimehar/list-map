@@ -19,7 +19,7 @@ function initMap(){
     var infowindow = new google.maps.InfoWindow();
     
     //map initialization
-    var center = {lat: -25.363, lng: 131.044};
+    var center = {lat: 42.657342, lng: 94.040122};
     geocoder = new google.maps.Geocoder();
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 2,
@@ -453,6 +453,7 @@ function initMap(){
                                 margin-top:25px;
                             }                            
                             .firstHeading{
+                                margin-top:20px;
                                 font-weight:bold;
                             }
                             .name{
