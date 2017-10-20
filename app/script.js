@@ -391,6 +391,11 @@ function initMap(){
         ]
     });
 
+    // enable this if you want to close all info window when click on map
+    // google.maps.event.addListener(map, 'click', function() {
+    //     infowindow.close();
+    // });
+
     // Preparing ICON
     var icon = {
         url: "images/marker.png", // url
@@ -407,7 +412,7 @@ function initMap(){
                 if(i==0)return;
                 var loc = val.C;
                 var info = {name: val.A, add: val.B};
-                placeMarker(loc,info);
+                placeMarkerAndList(loc,info);
                 counter++;
             });
             console.log(counter);
@@ -417,7 +422,7 @@ function initMap(){
     })
     
 
-    function placeMarker(loc, dat) {
+    function placeMarkerAndList(loc, dat) {
         if(loc == "FAILED,FAILED") return;
         var lat = parseFloat(loc.split(",")[0]);
         var lng = parseFloat(loc.split(",")[1]);
