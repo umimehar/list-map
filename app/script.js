@@ -1,9 +1,29 @@
+var settings = {
+    clusters: true,
+    fontUse : 'sofia-pro',
+}
+
+// data for json
+var data = {
+    loaded: false,
+    json : []
+}; //initilize the global variable to hold data
+
+
+var markers = [];
+var map;
+
+
 function initMap(){
-    console.log("map in");
-    var uluru = {lat: -25.363, lng: 131.044};
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 4,
-      center: uluru,
+    // initializeing the info window
+    var infowindow = new google.maps.InfoWindow();
+    
+    //map initialization
+    var center = {lat: -25.363, lng: 131.044};
+    geocoder = new google.maps.Geocoder();
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 2,
+      center: center,
       styles: [
         {
             "featureType": "all",
@@ -368,10 +388,137 @@ function initMap(){
                 }
             ]
         }
-    ]
+        ]
     });
-    var marker = new google.maps.Marker({
-      position: uluru,
-      map: map
-    });
+
+    // Preparing ICON
+    var icon = {
+        url: "images/marker.png", // url
+        scaledSize: new google.maps.Size(40, 40), // scaled size
+        origin: new google.maps.Point(0,0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+
+    // check if data loaded or not
+    $.getJSON( "data/data.json",function (res) {
+        if (res) {
+            var counter = 0;
+            $.each(res, function (i, val) {
+                if(i==0)return;
+                var loc = val.C;
+                var info = {name: val.A, add: val.B};
+                placeMarker(loc,info);
+                counter++;
+            });
+            console.log(counter);
+        }else{
+            console.log("data not loaded");
+        };
+    })
+    
+
+    function placeMarker(loc, dat) {
+        if(loc == "FAILED,FAILED") return;
+        var lat = parseFloat(loc.split(",")[0]);
+        var lng = parseFloat(loc.split(",")[1]);
+
+        var marker = new google.maps.Marker({
+            position: {lat: lat,lng: lng},
+            map: map,
+            icon: icon
+        });
+    // console.log(dat);
+
+    var contentString = `<div id="content">
+                            <div id="siteNotice"></div>
+                            <h4 class="firstHeading">STORE</h4>
+                            <div id="bodyContent">
+                                <p class="name">
+                                    ${dat.name}
+                                </p>
+                                <p class="address">
+                                    ${dat.add}
+                                </p>
+                            </div>
+                            <div>
+                                <a class="dirButton" target="_blank" href="https://www.google.com/maps/dir/Current+Location/${loc}">Get Direction</a>
+                            </div>
+                        </div>
+                        <style>
+                            #content{
+                                font-family: ${settings.fontUse || 'Trebuchet MS'}, Times, serif;
+                                width: 200px; 
+                            }
+                            #bodyContent{
+                                margin-top:25px;
+                            }                            
+                            .firstHeading{
+                                font-weight:bold;
+                            }
+                            .name{
+                                color:gray;
+                                margin-bottom:5px;
+                                font-size:15px;
+                            }
+                            .address{
+                                color:gray;
+                            }
+                            .dirButton{
+                                width: 100%;
+                                display: block;
+                                text-align: center;
+                                border: #ccc 1px solid;
+                                font-size: 15px;
+                                padding: 8px 0;
+                                color: black;
+                                text-tranform:uppercase;
+                                font-weight:bold;
+                                margin-top: 20px;
+                                margin-bottom: 7px;
+                            }
+                            .dirButton:hover{
+                                text-decoration:none:
+                                background:black;
+                            }
+                            .gm-style-iw {
+                               left:24px!important;
+                              }
+                        </style>`;
+
+        // Marker click
+        marker.addListener('click', function() {
+            infowindow.setContent(contentString);
+            infowindow.open(map, marker);
+            styleBorder();
+        });
+
+
+        markers.push(marker);
+        
+    }
+    
+    console.log(markers);
+    if(settings.clusters){
+        setTimeout(function () {
+            var markerCluster = new MarkerClusterer(map, markers, { imagePath: 'images/clusters/m'});
+        },20);
+    }
+
+    function styleBorder() {
+        // this code is for making border radious
+        var infoElement = $('.gm-style-iw').prev();
+        var boxWrapper = infoElement[0].childNodes[1],
+            boxContainer = infoElement[0].childNodes[3];
+        
+        //then set border-radius to wrapper and container via jQuery
+        $(boxWrapper).css({
+            borderRadius: 4
+        });
+        $(boxContainer).css({
+            borderRadius: 5,
+        });
+    }
+    
+    
+
 }
