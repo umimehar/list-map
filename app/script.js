@@ -1,5 +1,5 @@
 var settings = {
-    clusters: true,
+    clusters: false,
     fontUse : 'sofia-pro',
 }
 
@@ -401,7 +401,7 @@ function initMap(){
         url: "images/marker.png", // url
         scaledSize: new google.maps.Size(40, 40), // scaled size
         origin: new google.maps.Point(0,0), // origin
-        anchor: new google.maps.Point(0, 0) // anchor
+        anchor: new google.maps.Point(5, 0) // anchor
     };
 
     // check if data loaded or not
@@ -499,14 +499,25 @@ function initMap(){
         });
 
 
-        markers.push(marker);
+        var index = markers.push(marker) - 1;
+        $(".mainWrapper .lists").append(`<li class="MainList" onclick="openInfoWindow(${index})">
+                                            <div class="listname">
+                                                ${dat.name}
+                                            </div>
+                                            <div class="addres">
+                                                ${dat.add}
+                                            </div>
+                                            <div class="pull-right navigat"> 
+                                                    <i class="glyphicon glyphicon-chevron-right"></i>
+                                            </div>            
+                                        </li>`);
         
     }
     
     console.log(markers);
     if(settings.clusters){
         setTimeout(function () {
-            var markerCluster = new MarkerClusterer(map, markers, { imagePath: 'images/clusters/m'});
+            var markerCluster = new MarkerClusterer(map, markers, { imagePath: 'images/clusters/m',});
         },20);
     }
 
@@ -527,4 +538,12 @@ function initMap(){
     
     
 
+}
+function openInfoWindow(id) {
+
+    console.log(id);
+    map.panTo(markers[id].getPosition()); 
+    map.setZoom(7);
+    google.maps.event.trigger(markers[id], 'click');
+   
 }
