@@ -399,9 +399,9 @@ function initMap(){
     // Preparing ICON
     var icon = {
         url: "images/marker.png", // url
-        scaledSize: new google.maps.Size(40, 40), // scaled size
+        scaledSize: new google.maps.Size(32, 32), // scaled size
         origin: new google.maps.Point(0,0), // origin
-        anchor: new google.maps.Point(5, 0) // anchor
+        anchor: new google.maps.Point(12, 32) // anchor
     };
 
     // check if data loaded or not
@@ -494,6 +494,7 @@ function initMap(){
         // Marker click
         marker.addListener('click', function() {
             infowindow.setContent(contentString);
+            map.panTo(marker.getPosition()); 
             infowindow.open(map, marker);
             styleBorder();
         });
@@ -517,7 +518,7 @@ function initMap(){
     console.log(markers);
     if(settings.clusters){
         setTimeout(function () {
-            var markerCluster = new MarkerClusterer(map, markers, { imagePath: 'images/clusters/m',});
+            var markerCluster = new MarkerClusterer(map, markers, { imagePath: 'images/clusters/m'});
         },20);
     }
 
@@ -545,5 +546,11 @@ function openInfoWindow(id) {
     map.panTo(markers[id].getPosition()); 
     map.setZoom(7);
     google.maps.event.trigger(markers[id], 'click');
+
+    if (window.matchMedia('(max-width: 767px)').matches) {
+        $('html, body').animate({
+            scrollTop: ($('#map').offset().top)
+        },500);
+    }
    
 }
