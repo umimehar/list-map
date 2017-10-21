@@ -1,5 +1,5 @@
 var settings = {
-    clusters: false,
+    clusters: true,
     fontUse : 'sofia-pro',
 }
 
