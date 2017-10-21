@@ -470,7 +470,7 @@ function initMap(){
                                 color:gray;
                             }
                             .dirButton{
-                                width: 100%;
+                                width: 99.3%;
                                 display: block;
                                 text-align: center;
                                 border: #ccc 1px solid;
