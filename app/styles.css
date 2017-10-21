@@ -93,8 +93,20 @@ li.MainList:hover{
     margin-top: -26px;
     margin-right: -16px;
 }
+.autocomplete-suggestions { padding: 10px 15px;-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; border: 1px solid #999; background: #FFF; cursor: pointer; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.44); }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; margin-top: 10px;}
+.autocomplete-no-suggestion { padding: 2px 5px;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: bold; color: #000; }
+.autocomplete-group { padding: 2px 5px; font-size: 14px; color: #ccc; display: block; border-bottom: 1px solid #eee;}
 
+.autocomplete-suggestion:hover + .autocomplete-group, .autocomplete-group:hover + .autocomplete-suggestion{
+    cursor: pointer!important;
 
+}
+.autocomplete-suggestion:hover {
+    background: white;
+}
 
 /* enable absolute positioning */
 .inner-addon { 

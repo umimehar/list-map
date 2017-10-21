@@ -405,7 +405,7 @@ function initMap(){
     };
 
     // check if data loaded or not
-    $.getJSON( "data/data.json",function (res) {
+    $.getJSON( "data/data.js",function (res) {
         if (res) {
             var counter = 0;
             $.each(res, function (i, val) {
@@ -499,9 +499,11 @@ function initMap(){
             styleBorder();
         });
 
-
+        marker._name = dat.name;
+        marker._add = dat.add;
         var index = markers.push(marker) - 1;
-        $(".mainWrapper .lists").append(`<li class="MainList" onclick="openInfoWindow(${index})">
+        
+        $(".mainWrapper .lists").append(`<li id="marker${index}" class="MainList" onclick="openInfoWindow(${index})">
                                             <div class="listname">
                                                 ${dat.name}
                                             </div>
@@ -554,3 +556,34 @@ function openInfoWindow(id) {
     }
    
 }
+
+
+$(document).ready(function(){
+    $('#filterMarker').autocomplete({
+        maxHeight:400,// you can change this height
+        paramName: '_add',
+        transformResult: function(response, originalQuery) {
+            return {
+                suggestions: $.map(markers, function(dataItem, index) {
+                    if (dataItem._name.toLowerCase().includes(originalQuery.toLowerCase())){
+                        return { value: dataItem._name, data: {add:dataItem._add, index:index, }};
+                    }else{
+                        return;
+                    }
+                    
+                })
+            };
+        },
+        groupBy : 'add',
+        triggerSelectOnValidInput:false,
+        onSelect: function (suggestion) {
+            console.log(suggestion);
+            openInfoWindow(suggestion.data.index);
+
+            // $('.mainWrapper').animate({
+            //     scrollTop: ($('#marker'+suggestion.data.index).offset().top-110)
+            // },500);
+        }
+
+    });
+});
