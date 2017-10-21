@@ -7,3 +7,4 @@ Its a google maps with markers and a list on left.
 ![List view with markers](/../master/screenshots/30-disable%20clusters.png?raw=true "List view with markers")
 ![List view with markers](/../master/screenshots/31-responsive.png?raw=true "List view with markers")
 ![List view with markers](/../master/screenshots/32-responsive2.png?raw=true "List view with markers")
+[[ /../master/screenshots/32-responsive2.png?raw=true| height = 100px ]]
