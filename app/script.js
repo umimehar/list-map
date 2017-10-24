@@ -1,5 +1,5 @@
 var settings = {
-    clusters: true,
+    clusters: false,
     fontUse : 'sofia-pro',
 }
 
@@ -436,11 +436,9 @@ function initMap(){
 
     var contentString = `<div id="content">
                             <div id="siteNotice"></div>
-                            <h4 class="firstHeading">STORE</h4>
+                            <h4 class="firstHeading">${dat.name}</h4>
                             <div id="bodyContent">
-                                <p class="name">
-                                    ${dat.name}
-                                </p>
+                                
                                 <p class="address">
                                     ${dat.add}
                                 </p>
@@ -460,6 +458,7 @@ function initMap(){
                             .firstHeading{
                                 margin-top:20px;
                                 font-weight:bold;
+                                letter-spacing:-0.01em;
                             }
                             .name{
                                 color:gray;
@@ -470,7 +469,7 @@ function initMap(){
                                 color:gray;
                             }
                             .dirButton{
-                                width: 99.3%;
+                                width: 99%;
                                 display: block;
                                 text-align: center;
                                 border: #ccc 1px solid;
